@@ -41,9 +41,9 @@ export class DocExplorer extends React.Component {
     schema: PropTypes.instanceOf(GraphQLSchema),
   };
 
-  constructor() {
-    super();
-
+  constructor(props) {
+    super(props);
+    // TODO will probably want to mess with the initial nav state.
     this.state = { navStack: [initialNav] };
   }
 
@@ -60,6 +60,7 @@ export class DocExplorer extends React.Component {
     const navItem = navStack[navStack.length - 1];
 
     let content;
+
     if (schema === undefined) {
       // Schema is undefined when it is being loaded via introspection.
       content = (
@@ -142,6 +143,10 @@ export class DocExplorer extends React.Component {
 
   // Public API
   showDoc(typeOrField) {
+    // TODO: figure out what to do here.
+    // Calling toString on `typeOrField` won't work since it only returns the name.
+    this.props.onShowDoc(isType(typeOrField), typeOrField)
+
     const navStack = this.state.navStack;
     const topNav = navStack[navStack.length - 1];
     if (topNav.def !== typeOrField) {

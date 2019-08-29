@@ -69,11 +69,11 @@ export class QueryEditor extends React.Component {
     require('codemirror/addon/dialog/dialog');
     require('codemirror/addon/lint/lint');
     require('codemirror/keymap/sublime');
-    require('codemirror-graphql/hint');
-    require('codemirror-graphql/lint');
-    require('codemirror-graphql/info');
-    require('codemirror-graphql/jump');
-    require('codemirror-graphql/mode');
+    // require('codemirror-graphql/hint');
+    // require('codemirror-graphql/lint');
+    // require('codemirror-graphql/info');
+    // require('codemirror-graphql/jump');
+    // require('codemirror-graphql/mode');
 
     this.editor = CodeMirror(this._node, {
       value: this.props.value || '',
