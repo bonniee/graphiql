@@ -64,6 +64,7 @@ export class GraphiQL extends React.Component {
     onEditQuery: PropTypes.func,
     onEditVariables: PropTypes.func,
     onEditOperationName: PropTypes.func,
+    onShowDoc: PropTypes.func,
     onToggleDocs: PropTypes.func,
     getDefaultFieldNames: PropTypes.func,
     editorTheme: PropTypes.string,
@@ -435,7 +436,10 @@ export class GraphiQL extends React.Component {
               ref={c => {
                 this.docExplorerComponent = c;
               }}
-              schema={this.state.schema}>
+              schema={this.state.schema}
+              initialPage={this.state.docExplorerPage}
+              onShowDoc={this.handleShowDoc}
+              >
               <div className="docExplorerHide" onClick={this.handleToggleDocs}>
                 {'\u2715'}
               </div>
@@ -856,6 +860,12 @@ export class GraphiQL extends React.Component {
           });
         }
       }
+    }
+  };
+
+  handleShowDoc = (isType, docInstructions) => {
+    if (this.props.onShowDoc) {
+      this.props.onShowDoc(isType, docInstructions);
     }
   };
 

@@ -56,6 +56,13 @@ Complete your CLA here: <https://code.facebook.com/cla>
    any relevant documentation or tests. Ensure your work is committed within a
    feature branch.
 
+   You can run GraphiQL for local development with:
+
+   ```sh
+   cd packages/graphiql
+   yarn dev
+   ```
+
 5. Ensure all tests pass
 
    ```sh

@@ -98,6 +98,13 @@
         updateURL();
       }
 
+      function onShowDoc(isType, docInstructions) {
+        // Update the URL with relevant info for linking back to the doc viewer state.
+        parameters.isType = isType;
+        parameters.docInstructions = docInstructions;
+        updateURL();
+      }
+
       function updateURL() {
         var newSearch = '?' + Object.keys(parameters).filter(function (key) {
           return Boolean(parameters[key]);
@@ -143,6 +150,8 @@
           graphQLFetcher
         );
 
+     // todo add props here as needed to render the right kind of doc
+
       // Render <GraphiQL /> into the body.
       ReactDOM.render(
         React.createElement(GraphiQL, {
@@ -153,6 +162,7 @@
           onEditQuery: onEditQuery,
           onEditVariables: onEditVariables,
           onEditOperationName: onEditOperationName,
+          onShowDoc: onShowDoc,
           docExplorerOpen: true
         }),
         document.getElementById('graphiql')
