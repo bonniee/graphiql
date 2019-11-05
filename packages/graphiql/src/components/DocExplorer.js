@@ -39,6 +39,9 @@ const initialNav = {
 export class DocExplorer extends React.Component {
   static propTypes = {
     schema: PropTypes.instanceOf(GraphQLSchema),
+    initialDocFieldName: PropTypes.string,
+    initialDocTypeName: PropTypes.string,
+    onShowDoc: PropTypes.func
   };
 
   constructor() {
@@ -52,6 +55,29 @@ export class DocExplorer extends React.Component {
       this.props.schema !== nextProps.schema ||
       this.state.navStack !== nextState.navStack
     );
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.schema && 
+      (this.props.schema !== prevProps.schema) && 
+      this.props.initialDocTypeName) {
+      // The schema has changed, and we should render an initial type.
+
+      const typeMap = this.props.schema.getTypeMap();
+      const fullType = typeMap[this.props.initialDocTypeName];
+
+      if (fullType && this.props.initialDocFieldName) {
+        if (fullType.getFields) {
+          const fullField = fullType.getFields()[this.props.initialDocFieldName];
+          if (fullField) {
+            this.showDoc(fullField);
+          }
+          this.showDoc(fullType.getFields()[this.props.initialDocFieldName]);
+        }
+      } else if (fullType) { // Make sure that fullType exists.
+        this.showDoc(fullType);
+      }
+    }
   }
 
   render() {
@@ -142,6 +168,24 @@ export class DocExplorer extends React.Component {
 
   // Public API
   showDoc(typeOrField) {
+    if (!typeOrField) { return; }
+
+    if (this.props.onShowDoc) {
+      let typeName;
+      let fieldName;
+      if (isType(typeOrField)) {
+        typeName = typeOrField.name;
+        fieldName = null;
+      } else {
+        fieldName = typeOrField.name;
+        const navStack = this.state.navStack;
+        const lastState = navStack[navStack.length - 1];
+        typeName = lastState.name;
+      }
+
+      this.props.onShowDoc(typeName, fieldName)
+    }
+
     const navStack = this.state.navStack;
     const topNav = navStack[navStack.length - 1];
     if (topNav.def !== typeOrField) {

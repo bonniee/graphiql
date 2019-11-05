@@ -98,6 +98,12 @@
         updateURL();
       }
 
+      function onShowDoc(typeName, fieldName) {
+        parameters.initialDocTypeName = typeName;
+        parameters.initialDocFieldName = fieldName;
+        updateURL();
+      }
+
       function updateURL() {
         var newSearch = '?' + Object.keys(parameters).filter(function (key) {
           return Boolean(parameters[key]);
@@ -153,7 +159,10 @@
           onEditQuery: onEditQuery,
           onEditVariables: onEditVariables,
           onEditOperationName: onEditOperationName,
-          docExplorerOpen: true
+          docExplorerOpen: true,
+          initialDocTypeName: parameters.initialDocTypeName,
+          initialDocFieldName: parameters.initialDocFieldName,
+          onShowDoc: onShowDoc
         }),
         document.getElementById('graphiql')
       );
